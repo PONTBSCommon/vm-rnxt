@@ -4,5 +4,5 @@ Vagrant.configure("2") do |config|
 		v.memory = 6144 # 6GB
 		v.cpus = 4
 	end
-	config.vm.provision "shell", path: "fresh-setup.sh"
+	config.vm.provision "shell", path: "vagrant-script.sh"
 end
