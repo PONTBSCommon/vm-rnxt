@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <profiles>
+        <profile>
+            <id>wander</id>
+            <properties>
+                <repo.id>wander-release</repo.id>
+                <repo.url>s3://wander-artifact-repository/repository/wander</repo.url>
+            </properties>
+           <repositories>
+                <repository>
+                    <id>wander-release</id>
+                    <url>s3://wander-artifact-repository/repository/wander</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>wander-release</id>
+                    <url>s3://wander-artifact-repository/repository/wander</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+    <mirrors>
+    </mirrors>
+    <activeProfiles>
+        <activeProfile>wander</activeProfile>
+    </activeProfiles>
+</settings>
