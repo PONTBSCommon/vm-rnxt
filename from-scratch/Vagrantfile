@@ -1,8 +1,25 @@
 Vagrant.configure("2") do |config|
-	config.vm.box = "bento/ubuntu-18.10"
+  config.vm.box = "bento/ubuntu-18.10"
+  config.disksize.size = "50GB"
+
 	config.vm.provider "virtualbox" do |v|
 		v.memory = 6144 # 6GB
 		v.cpus = 4
-	end
-	config.vm.provision "shell", path: "vagrant-script.sh"
+  end
+
+  # copy user's ssh settings into the machine.
+  config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+  config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
+  config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
+
+  # copy in the user's aws settings.
+  config.vm.provision "file", source: "~/.aws/credentials", destination: "/home/vagrant/.aws/credentials"
+  config.vm.provision "file", source: "~/.aws/config", destination: "/home/vagrant/.aws/config"
+
+  # copy in the user's maven settings.
+  config.vm.provision "file", source: "~/.m2/settings.xml", destination: "/home/vagrant/.m2/settings.xml"
+
+  # copy the setup scripts
+  config.vm.provision "file", source: "./setup.sh", destination: "/home/vagrant/setup-win.sh"
+  config.vm.provision "shell", path: "./provision.sh"
 end
