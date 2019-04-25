@@ -6,6 +6,7 @@ Vagrant.configure("2") do |config|
   # share a git subfolder into the vagrant machine.
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "./git", "/home/vagrant/git/", create: true
+  config.vm.synced_folder "./scripts/dotfiles", "/home/vagrant/.dotfiles/"
   
   # machine settings (virtualbox specific).
 	config.vm.provider "virtualbox" do
@@ -37,7 +38,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "~/.aws/config", destination: "/home/vagrant/.aws/config"
   config.vm.provision "file", source: "~/.m2/settings.xml", destination: "/home/vagrant/.m2/settings.xml"
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
-  config.vm.provision "file", source: "./scripts/bashrc-functions.sh", destination: "/home/vagrant/funcs-win.sh"
   
   # bootstrap the setup.sh script in ~/.bashrc to run on first `vagrant ssh`.
   config.vm.provision "shell", path: "./scripts/provision.sh"
