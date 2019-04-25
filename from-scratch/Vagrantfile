@@ -9,18 +9,18 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # share a git subfolder into the vagrant machine.
-  config.vm.synced_folder "./git", "/home/vagrant/git/"
+  config.vm.synced_folder "./git", "/home/vagrant/git/", create: true
   
   # machine settings (virtualbox specific).
-	config.vm.provider "virtualbox" do
-    memory = 6144 # 6GB RAM
-    cpus = 4 # 4 cores
+	config.vm.provider "virtualbox" do |vb|
+    vb.memory = 6144 # 6GB RAM
+    vb.cpus = 4 # 4 cores
   end
 
-  # boot config trigger
+  # first-boot config trigger
   config.trigger.before :up do
     info = "Running the vagrant-plugins.ps1"
-    run "powershell -file local.ps1"
+    run = "powershell -file local.ps1"
   end
 
   # forwarded ports for running wander tests locally.

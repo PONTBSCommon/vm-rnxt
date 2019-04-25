@@ -7,6 +7,7 @@ sudo apt-mark hold grub-common
 sudo apt-mark hold grub*
 
 # update system. (quietly `shh`)
+DEBIAN_FRONTEND=noninteractive
 sudo apt upgrade -yq
 sudo apt install awscli maven -y --force-yes
 
@@ -40,6 +41,7 @@ git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test
 # run the wander devbox script to install their tools.
 printf '\n\n\t=== install dev tools ===\n\n'
 cd ~/git/ops/devbox && sudo -u vagrant ./build.sh DESKTOP
+sudo apt install openjdk-11-jdk -y
 
 # configure kops / kubectl automatically
 printf '\n\n\t=== configure kubernetes to point to hpalpine on startup. ===\n\n'

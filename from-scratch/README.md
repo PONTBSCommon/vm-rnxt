@@ -2,6 +2,7 @@
 - `cd` into the `from-scratch/` folder.
 - run the command `vagrant up`
   - vagrant will install the necessary plugins and download ubuntu
+  - you may see `==> default: Disk cannot be decreased in size. 51200 MB requested but disk is already 65536 MB.` This is fine. 
 - once complete, run `vagrant ssh`
 - on first boot tools will install. 
 - follow the on screen prompts.
@@ -10,15 +11,6 @@
 - if you have aws configured locally, it will be copied in.
 - if you have a git ssh key configured locally it will be copied in.
 - the maven settings are included here and will be copied in.
-
-# Update Notes #
-- *For keyboard config prompt*: Accept US layout defaults 
-  - (press enter twice)
-- *For GRUB update*: dont update GRUB.
-  - (press tab, enter, tab, enter)
-- *For `(Y/I/N/O/D/Z) [default=N] ?` prompts*: Accept defaults
-  - (press enter)
-
 
 # Default Directory Layout #
 - The git folder is stored under `~/git`
