@@ -2,14 +2,18 @@ printf '\n\n\t=== install necessary tools ===\n\n'
 sudo apt update
 
 # hold the grub package. it freezes on install .... :(
-sudo apt-mark hold grub-pc
-sudo apt-mark hold grub-common
+# also hold the console-setup package, because of the interactive keyboard locale prompt.
 sudo apt-mark hold grub*
+sudo apt-mark hold console-setup*
+
+# pre-set keyboard config
+setxkbmap us
 
 # update system. (quietly `shh`)
 DEBIAN_FRONTEND=noninteractive
+TERM=xterm
 sudo apt upgrade -yq
-sudo apt install awscli maven -y --force-yes
+sudo apt install awscli maven -yq
 
 # if you dont have aws setup locally run aws configure on first boot to get your creds.
 if [ ! -f /home/vagrant/.aws/credentials ]; then
@@ -20,8 +24,10 @@ fi
 # Add your local ssh key to the vagrant box so you can clone projects.
 printf '\n\n\t=== setup ssh authentication ===\n\n'
 eval `ssh-agent`
-ssh-keyscan >> ~/.ssh/known_hosts
-ssh-add ~/.ssh/id_rsa
+ssh-keygen -R github.azc.ext.hp.com
+ssh-keyscan -H  github.azc.ext.hp.com >> ~/.ssh/known_hosts
+echo "Updated known_hosts"
+cat ~/.ssh/known_hosts
 
 # Pull down the base projects. (Make sure you verify the fingerprint when it asks!)
 printf '\n\n\t=== clone projects ===\n\n'
@@ -41,7 +47,8 @@ git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test
 # run the wander devbox script to install their tools.
 printf '\n\n\t=== install dev tools ===\n\n'
 cd ~/git/ops/devbox && sudo -u vagrant ./build.sh DESKTOP
-sudo apt install openjdk-11-jdk -y
+echo 'export JAVA_HOME=/usr/lib/jvm/default-java/' >> ~/.bashrc
+source ~/.bashrc
 
 # configure kops / kubectl automatically
 printf '\n\n\t=== configure kubernetes to point to hpalpine on startup. ===\n\n'
@@ -49,7 +56,7 @@ echo ' #### point kops at hpalpine ####
 cd ~/git/ops/cicd/
 make hpalpine env-app
 source env.sh
-source kops_env.sh' >> ~/.bashrcyes
+source kops_env.sh' >> ~/.bashrc
 source ~/.bashrc
 
 # pull some basic dependencies.

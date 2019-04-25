@@ -1,5 +1,6 @@
 Vagrant.configure("2") do |config|
   # base image to use.
+  # - ubuntu/disco64 (19.04) hangs on ssh ... ?
   config.vm.box = "bento/ubuntu-18.10"
   
   # make sure you've run the ./vagrant-plugins.ps1 (or run the command in it)
