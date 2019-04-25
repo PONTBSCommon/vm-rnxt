@@ -1,5 +1,4 @@
 # Instructions #
-- `cd` into the `from-scratch/` folder.
 - run the command `vagrant up`
   - vagrant will install the necessary plugins and download ubuntu
   - you may see `==> default: Disk cannot be decreased in size. 51200 MB requested but disk is already 65536 MB.` This is fine. 

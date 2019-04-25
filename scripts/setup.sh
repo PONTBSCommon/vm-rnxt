@@ -24,25 +24,25 @@ fi
 # Add your local ssh key to the vagrant box so you can clone projects.
 printf '\n\n\t=== setup ssh authentication ===\n\n'
 eval `ssh-agent`
-ssh-keygen -R github.azc.ext.hp.com
-ssh-keyscan -H  github.azc.ext.hp.com >> ~/.ssh/known_hosts
-echo "Updated known_hosts"
-cat ~/.ssh/known_hosts
 
 # Pull down the base projects. (Make sure you verify the fingerprint when it asks!)
 printf '\n\n\t=== clone projects ===\n\n'
-cd ~/git
-mkdir ops
-cd ops
-git clone git@github.azc.ext.hp.com:Wander/wander-charts.git charts
-git clone git@github.azc.ext.hp.com:Wander/wander-devbox.git devbox
-git clone git@github.azc.ext.hp.com:Wander/wander-cicd.git cicd
 
-cd ..
-mkdir ~/git/wander
-cd ~/git/wander
-git clone git@github.azc.ext.hp.com:Wander/wander-common.git common
-git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test
+if [ ! -d ~/git/ops ]; then
+  cd ~/git
+  mkdir ~/git/ops
+  cd ~/git/ops
+  git clone git@github.azc.ext.hp.com:Wander/wander-charts.git charts
+  git clone git@github.azc.ext.hp.com:Wander/wander-devbox.git devbox
+  git clone git@github.azc.ext.hp.com:Wander/wander-cicd.git cicd
+fi
+
+if [ ! -d ~/git/wander ]; then
+  mkdir ~/git/wander
+  cd ~/git/wander
+  git clone git@github.azc.ext.hp.com:Wander/wander-common.git common
+  git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test
+fi
 
 # run the wander devbox script to install their tools.
 printf '\n\n\t=== install dev tools ===\n\n'

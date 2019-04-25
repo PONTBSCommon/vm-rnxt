@@ -1,30 +1,24 @@
 Vagrant.configure("2") do |config|
-  # base image to use.
-  # - ubuntu/disco64 (19.04) hangs on ssh ... ?
   config.vm.box = "bento/ubuntu-18.10"
-  
-  # make sure you've run the ./vagrant-plugins.ps1 (or run the command in it)
-  config.disksize.size = "50GB" # should be defaulted to 60 ish, but just in case.
+  config.disksize.size = "50GB"
 
   # disable the default share. we won't use it.
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-
   # share a git subfolder into the vagrant machine.
+  config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "./git", "/home/vagrant/git/", create: true
   
   # machine settings (virtualbox specific).
-	config.vm.provider "virtualbox" do |vb|
-    vb.memory = 6144 # 6GB RAM
-    vb.cpus = 4 # 4 cores
+	config.vm.provider "virtualbox" do
+    memory = 6144 # 6GB RAM
+    cpus = 4 # 4 cores
   end
 
   # first-boot config trigger
   config.trigger.before :up do
-    info = "Running the vagrant-plugins.ps1"
-    run = "powershell -file local.ps1"
+    run = "./scripts/local.ps1"
   end
 
-  # forwarded ports for running wander tests locally.
+  #### PORT FORWARDING ####
   config.vm.network "forwarded_port", guest: 15672, host: 15672, id: "rabbitmq"
   config.vm.network "forwarded_port", guest: 5671, host: 5671, id: "rabbitmq"
   config.vm.network "forwarded_port", guest: 5672, host: 5672, id: "rabbitmq"
@@ -34,21 +28,17 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 4576, host: 4576, id: "localstack sqs"
   config.vm.network "forwarded_port", guest: 4577, host: 4577, id: "localstack web interface"
 
-  # copy user's ssh settings into the machine.
+
+  #### VIRTUAL MACHINE CONFIGURATION FILES ####
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
-
-  # copy in the user's aws settings.
   config.vm.provision "file", source: "~/.aws/credentials", destination: "/home/vagrant/.aws/credentials"
   config.vm.provision "file", source: "~/.aws/config", destination: "/home/vagrant/.aws/config"
-
-  # copy in the user's maven settings.
   config.vm.provision "file", source: "~/.m2/settings.xml", destination: "/home/vagrant/.m2/settings.xml"
-
-  # copy the setup scripts
-  config.vm.provision "file", source: "./setup.sh", destination: "/home/vagrant/setup-win.sh"
-
-  # bootstrap the setup.sh script in ~/.bashrc to run on first `ssh`.
-  config.vm.provision "shell", path: "./provision.sh"
+  config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
+  config.vm.provision "file", source: "./scripts/bashrc-functions.sh", destination: "/home/vagrant/funcs-win.sh"
+  
+  # bootstrap the setup.sh script in ~/.bashrc to run on first `vagrant ssh`.
+  config.vm.provision "shell", path: "./scripts/provision.sh"
 end
