@@ -1,11 +1,25 @@
 Vagrant.configure("2") do |config|
+  # base image to use.
   config.vm.box = "bento/ubuntu-18.10"
-  config.disksize.size = "50GB"
+  
+  # make sure you've run the ./vagrant-plugins.ps1 (or run the command in it)
+  config.disksize.size = "50GB" # should be defaulted to 60 ish, but just in case.
 
+  # machine settings.
 	config.vm.provider "virtualbox" do |v|
-		v.memory = 6144 # 6GB
-		v.cpus = 4
+		v.memory = 6144 # 6GB RAM
+		v.cpus = 4 # 4 cores
   end
+
+  # forwarded ports for running wander tests locally.
+  config.vm.network "forwarded_port", guest: 15672, host: 15672, id: "rabbitmq"
+  config.vm.network "forwarded_port", guest: 5671, host: 5671, id: "rabbitmq"
+  config.vm.network "forwarded_port", guest: 5672, host: 5672, id: "rabbitmq"
+  config.vm.network "forwarded_port", guest: 6379, host: 6379, id: "redis"
+  config.vm.network "forwarded_port", guest: 3306, host: 3306, id: "mysql"
+  config.vm.network "forwarded_port", guest: 4575, host: 4575, id: "localstack sns"
+  config.vm.network "forwarded_port", guest: 4576, host: 4576, id: "localstack sqs"
+  config.vm.network "forwarded_port", guest: 4577, host: 4577, id: "localstack web interface"
 
   # copy user's ssh settings into the machine.
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
@@ -21,5 +35,7 @@ Vagrant.configure("2") do |config|
 
   # copy the setup scripts
   config.vm.provision "file", source: "./setup.sh", destination: "/home/vagrant/setup-win.sh"
+
+  # bootstrap the setup.sh script in ~/.bashrc to run on first `ssh`.
   config.vm.provision "shell", path: "./provision.sh"
 end

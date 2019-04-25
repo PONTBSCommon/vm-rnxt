@@ -14,6 +14,6 @@ chmod 644 /home/vagrant/.ssh/id_rsa.pub
 chown vagrant:vagrant /home/vagrant/.ssh -R
 
 echo 'if [ -f /home/vagrant/setup.sh ]; then 
-  /home/vagrant/setup.sh
-  rm /home/vagrant/setup.sh
+  echo -e "vagrant\n" | sudo --stdin /home/vagrant/setup.sh
+  sudo rm /home/vagrant/setup.sh
 fi' >> /home/vagrant/.bashrc
