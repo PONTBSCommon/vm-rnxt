@@ -24,13 +24,16 @@ ssh-add ~/.ssh/id_rsa
 
 # Pull down the base projects. (Make sure you verify the fingerprint when it asks!)
 printf '\n\n\t=== clone projects ===\n\n'
-mkdir git && cd git
-mkdir ops && cd ops
+cd ~/git
+mkdir ops
+cd ops
 git clone git@github.azc.ext.hp.com:Wander/wander-charts.git charts
 git clone git@github.azc.ext.hp.com:Wander/wander-devbox.git devbox
 git clone git@github.azc.ext.hp.com:Wander/wander-cicd.git cicd
 
-cd .. && mkdir wander && cd wander
+cd ..
+mkdir ~/git/wander
+cd ~/git/wander
 git clone git@github.azc.ext.hp.com:Wander/wander-common.git common
 git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test
 

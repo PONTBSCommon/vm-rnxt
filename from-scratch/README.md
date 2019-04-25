@@ -1,8 +1,7 @@
 # Instructions #
-
-- run the script `vagrant-plugins.ps1` (or copy and paste the command from the script file)
 - `cd` into the `from-scratch/` folder.
 - run the command `vagrant up`
+  - vagrant will install the necessary plugins and download ubuntu
 - once complete, run `vagrant ssh`
 - on first boot tools will install. 
 - follow the on screen prompts.
