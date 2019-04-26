@@ -84,6 +84,14 @@ git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test && \
 echo 'common projects done.'
 
 
+logf 'add printeron nameservers'
+sudo apt install resolvconf -yq && \
+echo 'nameserver 172.16.200.10
+nameserver 172.16.200.12' | sudo tee -a /etc/resolvconf/resolv.conf.d/head && \
+sudo resolvconf -u && \
+echo 'done.'
+
+
 logf 'install common maven dependencies.'
 source ~/.dotfiles/config.sh && \
 cd ~/git/wander/common && mvn clean && \
@@ -97,4 +105,4 @@ mv ~/.bashrc.pre-oh-my-bash ~/.bashrc -f && \
 source ~/.bashrc && \
 cd ~
 
-logf '~(˘▾˘~) Installation is complete. Happy coding! (~˘▾˘)~'
+logf '~(˘▾˘~) Installation is complete. Logout and Back In To Complete Setup. Happy coding! (~˘▾˘)~'

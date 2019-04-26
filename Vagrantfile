@@ -1,5 +1,5 @@
 # install plugins if not present.
-required_plugins = %w(vagrant-disksize)
+required_plugins = %w( vagrant-disksize )
 
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
@@ -23,11 +23,11 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "~/.aws/", "/home/vagrant/.aws/", create: true
   
   # machine settings (virtualbox specific).
-	config.vm.provider "virtualbox" do
-    memory = 6144 # 6GB RAM
-    cpus = 4 # 4 cores
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 6144 # 6GB RAM
+    vb.cpus = 4 # 4 cores
   end
-
+  
   config.trigger.after :destroy do |t|
     t.name = "Remove ./git ops & wander subdirectories."
     t.run = { inline: "./scripts/after.destroy.ps1" }
