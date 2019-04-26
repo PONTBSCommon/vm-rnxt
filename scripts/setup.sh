@@ -8,10 +8,6 @@ sudo apt-get update
 sudo apt-get upgrade -yq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 sudo apt-get autoremove  -yq
 
-logf 'installing utils (unzip, etc)'
-sudo apt install unzip -yq && \
-echo 'done.'
-
 
 logf 'installing docker'
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -yq && \
@@ -50,8 +46,9 @@ echo 'done.'
 
 
 logf 'install awscli'
-curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o /tmp/awscli-bundle.zip && \
-gzip -d /tmp/awscli-bundle.zip -d /tmp/awscli-bundle && \
+sudo apt install unzip python -yq && \
+sudo curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o /tmp/awscli-bundle.zip && \
+sudo unzip /tmp/awscli-bundle.zip -d /tmp/ && \
 sudo /tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
 echo 'done.'
 
