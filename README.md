@@ -9,11 +9,11 @@
 
 # Local Setup #
 **this setup is simplest when your windows laptop is already set up with a few tools.**
-- ssh / ssh keys for github (required) - if you have git bash / ssh set up, you're good.
-- awscli (optional / recommended) - not necessary, but you'll have to set up your credentials manually.
+- ssh / ssh keys for github ***(required)*** - if you have git bash / ssh set up, you're good.
+- awscli ***(optional / recommended)*** - not necessary, but you'll have to set up your credentials manually.
   - install here: https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html
-- m2 settings with wander repos. (optional / recommended) - not necessary, but if not setup you'll have to manually setup `~/.m2/settings.xml`
-  - wander settings here: (add to printeron settings as a new profile): https://github.azc.ext.hp.com/Wander/wander-devbox/blob/master/base.d/settings.xml
+- m2 settings with wander repos. ***(optional / recommended)*** - not necessary, but if not setup you'll have to manually setup `~/.m2/settings.xml`
+  - wander settings here: (add to your settings as a new profile alongside artifactory): https://github.azc.ext.hp.com/Wander/wander-devbox/blob/master/base.d/settings.xml
 
 # Default Directory Layout #
 - The git folder is stored under `~/git`
