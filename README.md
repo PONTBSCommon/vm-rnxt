@@ -15,11 +15,6 @@
 - m2 settings with wander repos. (optional / recommended) - not necessary, but if not setup you'll have to manually setup `~/.m2/settings.xml`
   - wander settings here: (add to printeron settings as a new profile): https://github.azc.ext.hp.com/Wander/wander-devbox/blob/master/base.d/settings.xml
 
-# Configuration #
-- if you have aws configured locally, it will be copied in.
-- if you have a git ssh key configured locally it will be copied in.
-- the maven settings are included here and will be copied in.
-
 # Default Directory Layout #
 - The git folder is stored under `~/git`
 - `wander-charts`, and `wander-cicd` are stored under `~/git/ops/` as `charts`, and `cicd`.
