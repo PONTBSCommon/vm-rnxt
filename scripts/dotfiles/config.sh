@@ -1,7 +1,7 @@
 # add the java from wander-devbox to path.
 if [ -d /usr/lib/jvm/default-java ]; then
   export JAVA_HOME=/usr/lib/jvm/default-java/
-  $PATH = $JAVA_HOME/bin:$PATH
+  export PATH=$JAVA_HOME/bin:$PATH
 fi
 
 # point kops at hpalpine ( kubernetes namespace setup )
@@ -10,6 +10,7 @@ if [ -d ~/git/ops/cicd ]; then
   make hpalpine env-app
   source env.sh
   source kops_env.sh
+  cd ~/git
 fi
 
 # start docker
