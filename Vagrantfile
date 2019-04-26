@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "./git", "/home/vagrant/git/", create: true
   config.vm.synced_folder "./scripts/dotfiles", "/home/vagrant/.dotfiles/"
   config.vm.synced_folder "~/.m2/", "/home/vagrant/.m2/"
-  config.vm.synced_folder "~/.aws/", "/home/vagrant/.aws/"
+  config.vm.synced_folder "~/.aws/", "/home/vagrant/.aws/", create: true
   
   # machine settings (virtualbox specific).
 	config.vm.provider "virtualbox" do
