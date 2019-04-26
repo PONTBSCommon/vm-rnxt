@@ -11,7 +11,7 @@ if not plugins_to_install.empty?
 end
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-18.04"
+  config.vm.box = "bento/ubuntu-18.10"
   config.disksize.size = "50GB"
 
   # disable the default share. we won't use it.
@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "./git", "/home/vagrant/git/", create: true
   config.vm.synced_folder "./scripts/dotfiles", "/home/vagrant/.dotfiles/"
-  config.vm.synced_folder "~/.m2/repository/", "/home/vagrant/.m2/repository/"
+  config.vm.synced_folder "~/.m2/", "/home/vagrant/.m2/"
   
   # machine settings (virtualbox specific).
 	config.vm.provider "virtualbox" do
@@ -49,7 +49,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
   config.vm.provision "file", source: "~/.aws/credentials", destination: "/home/vagrant/.aws/credentials"
   config.vm.provision "file", source: "~/.aws/config", destination: "/home/vagrant/.aws/config"
-  config.vm.provision "file", source: "~/.m2/settings.xml", destination: "/home/vagrant/.m2/settings.xml"
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
   
   # bootstrap the setup.sh script in ~/.bashrc to run on first `vagrant ssh`.

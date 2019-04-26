@@ -15,5 +15,6 @@ fi
 
 # start docker
 if [ hash dockerd 2>/dev/null ]; then
+  echo 'starting docker service'
   echo -e "vagrant\n" | sudo --stdin dockerd &
 fi

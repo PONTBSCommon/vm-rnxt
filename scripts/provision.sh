@@ -14,6 +14,6 @@ echo 'for f in ~/.dotfiles/*; do source $f; done' >> /home/vagrant/.bashrc
 # bootstrap the setup script.
 echo 'if [ -f /home/vagrant/setup.sh ]; then 
   # run first setup
-  /home/vagrant/setup.sh
+  /home/vagrant/setup.sh | tee /home/vagrant/git/install.log
   sudo rm /home/vagrant/setup.sh
 fi' >> /home/vagrant/.bashrc
