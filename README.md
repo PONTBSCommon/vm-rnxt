@@ -23,3 +23,6 @@
   - folder name can be specified at clone time. (eg: `git clone git@github.azc.ext.hp.com:Wander/wander-printer-status.git printer-status`)
   - `wander-clone [project-name]` is a built in function in `~/.dotfiles/funcs.sh` that clones to `~/git/wander` and removes the prefix from the folder. 
   - (example: `wander-clone wander-printer-status`)
+
+# Known Issues #
+- if working from home the printeron artifactory profile doesn't seem to work from inside the vagrant box
