@@ -9,7 +9,9 @@ sudo apt-get upgrade -yq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::
 sudo apt-get autoremove  -yq
 
 logf 'installing utils (unzip, etc)'
-sudo apt install unzip -yq
+sudo apt install unzip -yq && \
+echo 'done.'
+
 
 logf 'installing docker'
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -yq && \
