@@ -1,3 +1,15 @@
+# install plugins if not present.
+required_plugins = %w(vagrant-disksize)
+
+plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
+if not plugins_to_install.empty?
+  if system "vagrant plugin install #{plugins_to_install.join(' ')}"
+    exec "vagrant #{ARGV.join(' ')}"
+  else
+    abort "Installation of one or more plugins has failed. Aborting."
+  end
+end
+
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.10"
   config.disksize.size = "50GB"
@@ -14,9 +26,9 @@ Vagrant.configure("2") do |config|
     cpus = 4 # 4 cores
   end
 
-  # first-boot config trigger
-  config.trigger.before :up do
-    run = "./scripts/local.ps1"
+  config.trigger.after :destroy do |t|
+    t.name = "Remove ./git ops & wander subdirectories."
+    t.run = { inline: "./scripts/after.destroy.ps1" }
   end
 
   #### PORT FORWARDING ####
