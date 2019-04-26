@@ -1,2 +1,2 @@
 # remove the old wander repos.
-if (Test-Path ./git/wander) { rm -r -Force ./git }
+if (Test-Path ./git) { rm -r -Force ./git }
