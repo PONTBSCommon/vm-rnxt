@@ -3,5 +3,9 @@ logf() {
 }
 
 wander-clone() {
-  git clone "git@github.azc.ext.hp.com:Wander/$1.git"
+  dir=$(pwd)
+  cd ~/git/wander
+  folder_name="$(echo $1 | perl -pe 's/wander-//g')"
+  git clone "git@github.azc.ext.hp.com:Wander/$1.git $folder_name"
+  cd $dir
 }
