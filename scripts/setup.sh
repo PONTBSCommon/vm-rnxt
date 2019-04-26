@@ -46,7 +46,7 @@ echo 'done.'
 
 
 logf 'install awscli'
-sudo apt install unzip python -yq && \
+sudo apt-get install unzip python -yq && \
 sudo curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o /tmp/awscli-bundle.zip && \
 sudo unzip /tmp/awscli-bundle.zip -d /tmp/ && \
 sudo /tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
@@ -85,7 +85,7 @@ echo 'common projects done.'
 
 
 logf 'add printeron nameservers'
-sudo apt install resolvconf -yq && \
+sudo apt-get install resolvconf -yq && \
 echo 'nameserver 172.16.200.10
 nameserver 172.16.200.12' | sudo tee -a /etc/resolvconf/resolv.conf.d/head && \
 sudo resolvconf -u && \

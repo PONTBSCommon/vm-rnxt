@@ -6,6 +6,7 @@ wander-clone() {
   dir=$(pwd)
   cd ~/git/wander
   folder_name="$(echo $1 | perl -pe 's/wander-//g')"
-  git clone "git@github.azc.ext.hp.com:Wander/$1.git $folder_name"
+  echo "git@github.azc.ext.hp.com:Wander/$1.git $folder_name"
+  git clone "git@github.azc.ext.hp.com:Wander/$1.git" $folder_name
   cd $dir
 }

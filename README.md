@@ -21,3 +21,5 @@
 - `wander-common`, and `wander-e2e-test` are stored under `~/git/wander/` as `common`, and `e2e-test`.
 - the recommendation is to clone new projects under `~/git/wander/` with the `wander-` prefix removed.
   - folder name can be specified at clone time. (eg: `git clone git@github.azc.ext.hp.com:Wander/wander-printer-status.git printer-status`)
+  - `wander-clone [project-name]` is a built in function in `~/.dotfiles/funcs.sh` that clones to `~/git/wander` and removes the prefix from the folder. 
+  - (example: `wander-clone wander-printer-status`)
