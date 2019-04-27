@@ -48,8 +48,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
-  config.vm.provision "file", source: "./scripts/wander-settings.xml", destination: "/home/vagrant/.m2/settings.xml"
 
+  config.vm.provision "file", source: "./scripts/wander-settings.xml", destination: "/home/vagrant/settings-win.xml"
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
   
   # bootstrap the setup.sh script in ~/.bashrc to run on first `vagrant ssh`.

@@ -12,8 +12,7 @@
 - ssh / ssh keys for github ***(required)*** - if you have git bash / ssh set up, you're good.
 - awscli ***(optional / recommended)*** - not necessary, but you'll have to set up your credentials manually.
   - install here: https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html
-- m2 settings with wander repos. ***(optional / recommended)*** - not necessary, but if not setup you'll have to manually setup `~/.m2/settings.xml`
-  - wander settings here: (add to your settings as a new profile alongside artifactory): https://github.azc.ext.hp.com/Wander/wander-devbox/blob/master/base.d/settings.xml
+- maven .m2/repository - the repository folder is shared automatically to save download time.
 
 # Default Directory Layout #
 - The git folder is stored under `~/git`
@@ -23,6 +22,3 @@
   - folder name can be specified at clone time. (eg: `git clone git@github.azc.ext.hp.com:Wander/wander-printer-status.git printer-status`)
   - `wander-clone [project-name]` is a built in function in `~/.dotfiles/funcs.sh` that clones to `~/git/wander` and removes the prefix from the folder. 
   - (example: `wander-clone wander-printer-status`)
-
-# Known Issues #
-- if working from home the printeron artifactory profile doesn't seem to work from inside the vagrant box
