@@ -3,10 +3,10 @@ logf() {
 }
 
 status_bool() {
-  if [ $1 == true ]; then
-    return "\e[32msuccess\e[39m"
+  if [ "$1" ]; then
+    echo -e "\e[32msuccess\e[39m"
   else
-    return "\e[31mfailure\e[39m"
+    echo -e "\e[31mfailure\e[39m"
   fi
 }
 

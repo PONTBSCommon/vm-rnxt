@@ -132,22 +132,22 @@ cd ~/git/wander/e2e-test && mvn clean && \
 echo_success && mvn_clean=true
 
 logf 'Operations Summary'
-printf "%40s => %s" "Set Permissions On Imported SSH Keys" (status_bool ssh_setup)
-printf "%40s => %s" "Take Ownership Of The /usr/local Directory" (status_bool own_usr_local)
-printf "%40s => %s" "Update The System" (status_bool system_update)
-printf "%40s => %s" "Set The Timezone To America/Toronto" (status_bool set_timezone)
-printf "%40s => %s" "Add The Printeron Nameservers" (status_bool pon_nameserver)
-printf "%40s => %s" "Install AWS CLI" (status_bool inst_awscli)
-printf "%40s => %s" "Install Docker Compose" (status_bool inst_compose)
-printf "%40s => %s" "Install Docker" (status_bool inst_docker)
-printf "%40s => %s" "Install Helm & Tiller" (status_bool inst_helm)
-printf "%40s => %s" "Install Java ${JDK_VER}" (status_bool inst_java)
-printf "%40s => %s" "Install Kops" (status_bool inst_kops)
-printf "%40s => %s" "Install KubeCTL" (status_bool inst_kubectl)
-printf "%40s => %s" "Install Maven ${MVN_VER}" (status_bool inst_maven)
-printf "%40s => %s" "Install Oh My Bash" (status_bool inst_omb)
-printf "%40s => %s" "Pull Wander DevOps Repos" (status_bool pull_ops)
-printf "%40s => %s" "Pull Wander Service Repos" (status_bool pull_wander)
-printf "%40s => %s" "Install Wander Common Dependencies" (status_bool mvn_clean)
+printf "%-40s => %s\n" "Set Permissions On Imported SSH Keys" `status_bool $ssh_setup`
+printf "%-40s => %s\n" "Take Ownership Of The /usr/local Directory" `status_bool $own_usr_local`
+printf "%-40s => %s\n" "Update The System" `status_bool $system_update`
+printf "%-40s => %s\n" "Set The Timezone To America/Toronto" `status_bool $set_timezone`
+printf "%-40s => %s\n" "Add The Printeron Nameservers" `status_bool $pon_nameserver`
+printf "%-40s => %s\n" "Install AWS CLI" `status_bool $inst_awscli`
+printf "%-40s => %s\n" "Install Docker Compose" `status_bool $inst_compose`
+printf "%-40s => %s\n" "Install Docker" `status_bool $inst_docker`
+printf "%-40s => %s\n" "Install Helm & Tiller" `status_bool $inst_helm`
+printf "%-40s => %s\n" "Install Java ${JDK_VER}" `status_bool $inst_java`
+printf "%-40s => %s\n" "Install Kops" `status_bool $inst_kops`
+printf "%-40s => %s\n" "Install KubeCTL" `status_bool $inst_kubectl`
+printf "%-40s => %s\n" "Install Maven ${MVN_VER}" `status_bool $inst_maven`
+printf "%-40s => %s\n" "Install Oh My Bash" `status_bool $inst_omb`
+printf "%-40s => %s\n" "Pull Wander DevOps Repos" `status_bool $pull_ops`
+printf "%-40s => %s\n" "Pull Wander Service Repos" `status_bool $pull_wander`
+printf "%-40s => %s\n" "Install Wander Common Dependencies" `status_bool $mvn_clean`
 
 cd ~ && logf '~(˘▾˘~) Installation is complete. Logout and Back In To Complete Setup. Happy coding! (~˘▾˘)~'
