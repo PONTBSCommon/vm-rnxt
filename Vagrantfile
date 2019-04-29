@@ -26,11 +26,6 @@ Vagrant.configure("2") do |config|
     vb.memory = 6144 # 6GB RAM
     vb.cpus = 4 # 4 cores
   end
-  
-  config.trigger.after :destroy do |t|
-    t.name = "Remove ./git ops & wander subdirectories."
-    t.run = { inline: "./scripts/after.destroy.ps1" }
-  end
 
   #### PORT FORWARDING ####
   config.vm.network "forwarded_port", guest: 15672, host: 15672, id: "rabbitmq"
