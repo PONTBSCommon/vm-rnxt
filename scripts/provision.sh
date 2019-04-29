@@ -3,6 +3,9 @@ chmod 777 /home/vagrant/.aws -R
 tr -d '\15\32' < /home/vagrant/setup-win.sh > /home/vagrant/setup.sh
 tr -d '\15\32' < /home/vagrant/settings-win.xml > /home/vagrant/.m2/settings.xml
 
+# convertor for line endings.
+apt install -qq dos2unix -y
+
 # remove backup files with windows /r returns.
 rm /home/vagrant/setup-win.sh
 
@@ -10,7 +13,11 @@ rm /home/vagrant/setup-win.sh
 chmod +x /home/vagrant/setup.sh
 
 # source the synced dotfiles.
-echo 'source ~/.dotfiles/my_bashrc' >> /home/vagrant/.bashrc
+echo '
+find /home/vagrant/.dotfiles/ -type f -print0 | xargs -0 dos2unix
+find /home/vagrant/.aws/ -type f -print0 | xargs -0 dos2unix
+source ~/.dotfiles/my_bashrc
+' >> /home/vagrant/.bashrc
 
 # bootstrap the setup script.
 echo 'if [ -f /home/vagrant/setup.sh ]; then 
@@ -21,5 +28,3 @@ echo 'if [ -f /home/vagrant/setup.sh ]; then
 fi' >> /home/vagrant/.bashrc
 
 # convert all line endings
-find /home/vagrant/.dotfiles/ -type f -print0 | xargs -0 dos2unix
-find /home/vagrant/.aws/ -type f -print0 | xargs -0 dos2unix
