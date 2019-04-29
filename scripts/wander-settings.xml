@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
     <profiles>
         <profile>
@@ -11,7 +11,7 @@
                 <repo.id>wander-release</repo.id>
                 <repo.url>s3://wander-artifact-repository/repository/wander</repo.url>
             </properties>
-           <repositories>
+            <repositories>
                 <repository>
                     <id>wander-release</id>
                     <url>s3://wander-artifact-repository/repository/wander</url>
@@ -34,7 +34,7 @@
             <name>Google Maven Central</name>
             <url>https://maven-central.storage.googleapis.com/repos/central/data/</url>
             <mirrorOf>central</mirrorOf>
-        </mirror> 
+        </mirror>
     </mirrors>
     <activeProfiles>
         <activeProfile>wander</activeProfile>

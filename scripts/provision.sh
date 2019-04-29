@@ -19,3 +19,7 @@ echo 'if [ -f /home/vagrant/setup.sh ]; then
   /home/vagrant/setup.sh | tee /home/vagrant/git/install.log
   sudo rm /home/vagrant/setup.sh
 fi' >> /home/vagrant/.bashrc
+
+# convert all line endings
+find ~/.dotfiles/ -type f -print0 | xargs -0 dos2unix
+find ~/.aws/ -type f -print0 | xargs -0 dos2unix
