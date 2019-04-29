@@ -2,6 +2,20 @@ logf() {
   echo -e "\n\e[1m\e[95m === \e[1;39m$1\e[0;95m === \e[39m\e[21m\n"
 }
 
+tablef() {
+  if [ $2 == true ]; then
+    $status = "\e[32msuccess\e[39m"
+  else
+    $status = "\e[31mfailure\e[39m"
+  fi
+  printf "%15s:\t%s", $1, $status
+}
+
+
+echo_success() {
+  echo -e "done. \e[32m(success)\e[39m"
+}
+
 wander-clone() {
   dir=$(pwd)
   cd ~/git/wander

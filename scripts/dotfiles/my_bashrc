@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source ~/.dotfiles/config
+for f in ~/.dotfiles/*.sh; do source $f; done
