@@ -15,7 +15,7 @@
 - maven .m2/repository - the repository folder is shared automatically to save download time.
 
 # Default Directory Layout #
-- The git folder is stored under `~/git`
+- The git folder is stored under `~/git` (Locally under `./rnxt/git/`)
 - `wander-charts`, and `wander-cicd` are stored under `~/git/ops/` as `charts`, and `cicd`.
 - `wander-common`, and `wander-e2e-test` are stored under `~/git/wander/` as `common`, and `e2e-test`.
 - the recommendation is to clone new projects under `~/git/wander/` with the `wander-` prefix removed.
