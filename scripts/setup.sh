@@ -48,11 +48,11 @@ echo_success && inst_docker=true
 
 
 inst_java=false && logf "[01] installing java ${JDK_VER}+${JDK_REV}"
-curl -L "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-${JDK_VER}%2B${JDK_REV}/OpenJDK11U-jdk_x64_linux_hotspot_${JDK_VER}_${JDK_REV}.tar.gz" -o "/tmp/openjdk-${JDK_VER}.tar.gz" && \
-curl -L "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-${JDK_VER}%2B${JDK_REV}/OpenJDK11U-jdk_x64_linux_hotspot_${JDK_VER}_${JDK_REV}.tar.gz.sha256.txt" -o /tmp/sha256 && \
+curl -L "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-${JDK_VER}_linux-x64_bin.tar.gz" -o "/tmp/openjdk-${JDK_VER}.tar.gz" && \
+curl -L "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-${JDK_VER}_linux-x64_bin.tar.gz.sha256" -o /tmp/sha256 && \
 sha256sum -t /tmp/sha256 "/tmp/openjdk-${JDK_VER}.tar.gz" && rm /tmp/sha256 && \
 tar xvf "/tmp/openjdk-${JDK_VER}.tar.gz" -C /usr/local/ 1>/dev/null && \
-mv "/usr/local/jdk-${JDK_VER}+${JDK_REV}/" "/usr/local/openjdk-${JDK_VER}/" && \
+mv "/usr/local/jdk-${JDK_VER}/" "/usr/local/openjdk-${JDK_VER}/" && \
 echo_success && inst_java=true
 
 
@@ -82,7 +82,7 @@ echo_success && inst_awscli=true
 
 
 inst_kops=false && logf '[05] install kops'
-curl -L https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 -o /usr/local/bin/kops && \
+curl -L https://github.com/kubernetes/kops/releases/download/$KOPS_VER/kops-linux-amd64 -o /usr/local/bin/kops && \
 sudo chmod +x /usr/local/bin/kops && \
 echo_success && inst_kops=true
 
@@ -91,14 +91,14 @@ inst_kubectl=false && logf '[06] install kubernetes kubectl'
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
 echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list && \
 sudo apt-get -qq update && \
-sudo apt-get -qq install -y kubectl jq && \
+sudo apt-get install --no-install-recommends --allow-downgrades -y kubectl=$KUBECTL_VER jq
 echo_success && inst_kubectl=true
 
 
 inst_helm=false && logf '[07] install helm/tiller'
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh && \
 chmod +x get_helm.sh && \
-./get_helm.sh && \
+./get_helm.sh --version "v${HELM_VER}" && \
 rm -f get_helm.sh && \
 echo_success && inst_helm=true
 
@@ -124,6 +124,9 @@ git clone git@github.azc.ext.hp.com:Wander/wander-common.git common && \
 git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test && \
 echo_success && pull_wander=true
 
+
+logf 'configure aws'
+if [ -d ~/.aws/credentials ]
 
 mvn_clean=false && logf 'install common maven dependencies.'
 source ~/.bashrc && \

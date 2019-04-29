@@ -16,6 +16,15 @@ if [ -d "/usr/local/apache-maven-${MVN_VER}" ]; then
   # no path export. bin is symlinked to /usr/local/bin/mvn
 fi
 
+# aws configuration
+if [ ! -f ~/.aws/credentials ]; then
+  source ~/.dotfiles/funcs.sh
+  logf 'please set up your aws credentials.'
+  aws configure
+else
+  echo 'aws creds found.'
+fi
+
 # start docker
 if [ hash dockerd 2>/dev/null ]; then
   echo 'starting dockerd'
