@@ -126,7 +126,7 @@ echo_success && pull_wander=true
 
 
 mvn_clean=false && logf 'install common maven dependencies.'
-source ~/.dotfiles/config.sh && \
+source ~/.bashrc && \
 cd ~/git/wander/common && mvn clean && \
 cd ~/git/wander/e2e-test && mvn clean && \
 echo_success && mvn_clean=true
