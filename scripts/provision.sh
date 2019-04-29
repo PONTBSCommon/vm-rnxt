@@ -4,7 +4,7 @@ tr -d '\15\32' < /home/vagrant/setup-win.sh > /home/vagrant/setup.sh
 tr -d '\15\32' < /home/vagrant/settings-win.xml > /home/vagrant/.m2/settings.xml
 
 # convertor for line endings.
-apt install -qq dos2unix -y
+apt-get -qq install -y dos2unix
 
 # remove backup files with windows /r returns.
 rm /home/vagrant/setup-win.sh

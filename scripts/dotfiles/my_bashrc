@@ -1,5 +1,2 @@
-echo -e "vagrant\n" | sudo --stdin find ~/.dotfiles/ -type f -print0 | xargs -0 dos2unix 1>/dev/null
-echo -e "vagrant\n" | sudo --stdin find ~/.aws/ -type f -print0 | xargs -0 dos2unix 1>/dev/null
-
 source ~/.dotfiles/config
 for f in ~/.dotfiles/*.sh; do source $f; done
