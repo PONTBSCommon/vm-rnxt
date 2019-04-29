@@ -21,5 +21,5 @@ echo 'if [ -f /home/vagrant/setup.sh ]; then
 fi' >> /home/vagrant/.bashrc
 
 # convert all line endings
-find ~/.dotfiles/ -type f -print0 | xargs -0 dos2unix
-find ~/.aws/ -type f -print0 | xargs -0 dos2unix
+find /home/vagrant/.dotfiles/ -type f -print0 | xargs -0 dos2unix
+find /home/vagrant/.aws/ -type f -print0 | xargs -0 dos2unix
