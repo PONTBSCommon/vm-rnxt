@@ -14,8 +14,8 @@ chmod +x /home/vagrant/setup.sh
 
 # source the synced dotfiles.
 echo '
-find /home/vagrant/.dotfiles/ -type f -print0 | xargs -0 dos2unix
-find /home/vagrant/.aws/ -type f -print0 | xargs -0 dos2unix
+find /home/vagrant/.dotfiles/ -type f -print0 | xargs -0 dos2unix 1>/dev/null
+find /home/vagrant/.aws/ -type f -print0 | xargs -0 dos2unix 1>/dev/null
 source ~/.dotfiles/my_bashrc
 ' >> /home/vagrant/.bashrc
 
