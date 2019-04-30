@@ -62,6 +62,7 @@ curl -L "http://apache.mirror.gtcomm.net/maven/maven-3/${MVN_VER}/binaries/apach
 sha512sum -t /tmp/sha512 "/tmp/apache-maven-${MVN_VER}-bin.tar.gz" && rm /tmp/sha512 && \
 tar xvf "/tmp/apache-maven-${MVN_VER}-bin.tar.gz" -C /usr/local/ 1>/dev/null && \
 ln -s "/usr/local/apache-maven-${MVN_VER}/bin/mvn" "/usr/local/bin/mvn" && \
+sudo cp -f ~/.m2/settings.xml "/usr/local/apache-maven-${MVN_VER}/conf/"
 echo_success && inst_maven=true
 
 
@@ -112,24 +113,26 @@ echo_success && inst_omb=true
 
 
 logf 'Pull down the base wander projects.'
-rm -rf ~/git/ops && \
-mkdir ~/git/ops && cd ~/git/ops && \
+sudo rm -rf ~/git/ops
+mkdir ~/git/ops
+cd ~/git/ops && \
 git clone git@github.azc.ext.hp.com:Wander/wander-charts.git charts && \
 git clone git@github.azc.ext.hp.com:Wander/wander-cicd.git cicd && \
 echo_success && pull_ops=true
 
 echo -e '\n'
 
-rm -rf ~/git/wander && \
-mkdir ~/git/wander && cd ~/git/wander
+sudo rm -rf ~/git/wander
+mkdir ~/git/wander
+cd ~/git/wander
 git clone git@github.azc.ext.hp.com:Wander/wander-common.git common && \
 git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test && \
 echo_success && pull_wander=true
 
 logf 'install common maven dependencies.'
 source ~/.bashrc && source ~/.dotfiles/config && sleep 2
-cd ~/git/wander/common && mvn clean && \
-cd ~/git/wander/e2e-test && mvn clean && \
+cd ~/git/wander/common && mvn clean test && \
+cd ~/git/wander/e2e-test && mvn clean test && \
 echo_success && mvn_clean=true
 
 logf 'Operations Summary'
