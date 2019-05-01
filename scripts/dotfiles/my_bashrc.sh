@@ -1,6 +1,12 @@
-#!/bin/bash
+###########################################################
+## This file is the vagrant user's custom bashrc profile ##
+###########################################################
+
+# run the setup script on first run.
+[[ -f /home/vagrant/setup.sh ]] && /home/vagrant/setup.sh | tee ~/.install.log && rm /home/vagrant/setup.sh
 
 source ~/.dotfiles/versions.sh
+source ~/.dotfiles/funcs.sh
 
 # add openjdk 11 to the environment.
 if [ -d "/usr/local/openjdk-${JDK_VER}" ]; then
@@ -33,9 +39,27 @@ fi
 
 # point kops at hpalpine ( kubernetes namespace setup )
 if [ -d ~/git/ops/cicd ]; then
+  prev_dir=$(pwd)
   cd ~/git/ops/cicd/
   make hpalpine env-app
   source env.sh
   source kops_env.sh
-  cd ~/git
+  cd $prev_dir
 fi
+
+# add command completions
+if [ hash kops 2>/dev/null ]; then
+  source <(kops completion bash)
+fi
+if [ hash helm 2>/dev/null ]; then
+  source <(helm completion bash)
+fi
+if [ hash kubectl 2>/dev/null ]; then
+  source <(kubectl completion bash)
+fi
+if [ hash docker-compose 2>/dev/null ]; then
+  alias dc=docker-compose
+fi
+
+# start wander docker containers on login.
+start-wander-docker

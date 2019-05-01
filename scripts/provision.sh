@@ -1,30 +1,141 @@
-chmod 777 /home/vagrant/.aws -R
+#############################################
+## #         Configure Settings          # ##
+#############################################
 
-tr -d '\15\32' < /home/vagrant/setup-win.sh > /home/vagrant/setup.sh
-tr -d '\15\32' < /home/vagrant/settings-win.xml > /home/vagrant/.m2/settings.xml
+# import settings.
+source /home/vagrant/.dotfiles/funcs.sh
+source /home/vagrant/.dotfiles/versions.sh
 
-# convertor for line endings.
-apt-get -qq install -y dos2unix
+export DEBIAN_FRONTEND=noninteractive
+export TERM=xterm
 
-# remove backup files with windows /r returns.
-rm /home/vagrant/setup-win.sh
+# install line ending convertor.
+logf 'installing dos2unix line ending convertor'
+apt-get -qq install dos2unix >/dev/null && \
+echo_success
 
-# make setup script executable
-chmod +x /home/vagrant/setup.sh
+# convert setup script to unix line endings.
+tr -d '\15\32' < /home/vagrant/setup-win.sh > /home/vagrant/setup.sh && rm /home/vagrant/setup-win.sh
 
-# source the synced dotfiles.
+# open ownership of the .aws folder
+logf 'set permissions on shared files and folders'
+chmod 777 /home/vagrant/.aws -R && chown vagrant:vagrant /home/vagrant/.aws -R && \
+chmod 777 /home/vagrant/setup.sh && chown vagrant:vagrant /home/vagrant/setup.sh && \
+echo_success
+# add custom profile my_bashrc.sh to bashrc
 echo '
-find /home/vagrant/.dotfiles/ -type f -print0 | xargs -0 dos2unix 1>/dev/null
-find /home/vagrant/.aws/ -type f -print0 | xargs -0 dos2unix 1>/dev/null
-source ~/.dotfiles/my_bashrc
+for file in $(ls ~/.dotfiles); do dos2unix ~/.dotfiles/$file >/dev/null; done
+for file in $(ls ~/.aws); do dos2unix ~/.aws/$file >/dev/null; done 
+source /home/vagrant/.dotfiles/my_bashrc.sh
 ' >> /home/vagrant/.bashrc
 
-# bootstrap the setup script.
-echo 'if [ -f /home/vagrant/setup.sh ]; then 
-  # run first setup
-  rm /home/vagrant/git/install.log 2>/dev/null
-  /home/vagrant/setup.sh | tee /home/vagrant/git/install.log
-  sudo rm /home/vagrant/setup.sh
-fi' >> /home/vagrant/.bashrc
 
-# convert all line endings
+#############################################
+## # System setup, and tool installation # ##
+#############################################
+logf 'update system. (quietly `shh`)'
+apt-mark hold console-setup console-setup-linux grub-common grub-pc grub-pc-bin grub2-common keyboard-configuration >/dev/null && \
+apt-get -q update >/dev/null && \
+apt-get -qq upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
+apt-get -qq autoremove -y >/dev/null && \
+echo_success 
+
+
+logf 'set proper timezone'
+echo "America/Toronto" > /etc/timezone && \
+dpkg-reconfigure --frontend noninteractive tzdata && \
+echo_success 
+
+
+logf 'add printeron nameservers'
+apt-get -qq install -y resolvconf && \
+echo -e "nameserver 172.16.200.10\nnameserver 172.16.200.12" >> /etc/resolvconf/resolv.conf.d/head && \
+service resolvconf restart && \
+echo_success 
+
+
+logf '[00] installing docker'
+apt-get -qq install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common >/dev/null && \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - >/dev/null && \
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" >/dev/null && \
+apt-get -qq update >/dev/null && \
+apt-get -qq install -y docker-ce docker-ce-cli containerd.io >/dev/null && \
+usermod -aG docker vagrant >/dev/null && \
+echo_success 
+
+
+logf "[01] installing java $JDK_VER"
+curl -sSL "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-${JDK_VER}_linux-x64_bin.tar.gz" -o "/tmp/openjdk-${JDK_VER}.tar.gz" && \
+curl -sSL "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-${JDK_VER}_linux-x64_bin.tar.gz.sha256" -o /tmp/sha256 && \
+sha256sum -t /tmp/sha256 "/tmp/openjdk-${JDK_VER}.tar.gz" && rm /tmp/sha256 && \
+tar xvf "/tmp/openjdk-${JDK_VER}.tar.gz" -C /usr/local/ 1>/dev/null && \
+mv "/usr/local/jdk-${JDK_VER}/" "/usr/local/openjdk-${JDK_VER}/" && \
+echo_success 
+
+
+logf "[02] installing maven $MVN_VER"
+curl -sSL "http://apache.mirror.gtcomm.net/maven/maven-3/${MVN_VER}/binaries/apache-maven-${MVN_VER}-bin.tar.gz" -o "/tmp/apache-maven-${MVN_VER}-bin.tar.gz" && \
+curl -sSL "http://apache.mirror.gtcomm.net/maven/maven-3/${MVN_VER}/binaries/apache-maven-${MVN_VER}-bin.tar.gz.sha512" -o /tmp/sha512 && \
+sha512sum -t /tmp/sha512 "/tmp/apache-maven-${MVN_VER}-bin.tar.gz" && rm /tmp/sha512 && \
+tar xvf "/tmp/apache-maven-${MVN_VER}-bin.tar.gz" -C /usr/local/ 1>/dev/null && \
+ln -s "/usr/local/apache-maven-${MVN_VER}/bin/mvn" "/usr/local/bin/mvn" && \
+echo_success 
+
+
+logf "[03] install docker-compose $COMPOSE_VER"
+curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VER}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VER}/docker-compose-$(uname -s)-$(uname -m).sha256" -o /tmp/sha256 && \
+sha256sum -t /tmp/sha256 /usr/local/bin/docker-compose && rm /tmp/sha256 && \
+chmod +x /usr/local/bin/docker-compose && \
+echo_success 
+
+
+logf '[04] install awscli'
+apt-get -qq install unzip python -y >/dev/null && \
+curl -sS "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o /tmp/awscli-bundle.zip && \
+unzip /tmp/awscli-bundle.zip -d /tmp/ 1>/dev/null && \
+/tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
+echo_success 
+
+
+logf "[05] install kops $KOPS_VER"
+curl -sSL https://github.com/kubernetes/kops/releases/download/$KOPS_VER/kops-linux-amd64 -o /usr/local/bin/kops && \
+chmod +x /usr/local/bin/kops && \
+echo_success 
+
+
+logf "[06] install kubernetes kubectl $KUBECTL_VER"
+curl -sS https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list && \
+apt-get -qq update >/dev/null && \
+apt-get install --no-install-recommends --allow-downgrades -y kubectl=$KUBECTL_VER jq >/dev/null 
+echo_success 
+
+
+logf "[07] install helm/tiller $HELM_VER"
+curl -sS https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh && \
+chmod +x get_helm.sh && \
+./get_helm.sh --version "v${HELM_VER}" && \
+rm -f get_helm.sh && \
+echo_success 
+
+
+logf '[08] install oh-my-bash (pretty git prompt)'
+sudo -Hu vagrant sh -c "$(curl -fsSL https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh)" <<< 'exit' && \
+cat /home/vagrant/.bashrc >> /home/vagrant/.bashrc.pre-oh-my-bash && \
+mv /home/vagrant/.bashrc.pre-oh-my-bash /home/vagrant/.bashrc -f && \
+echo_success 
+
+
+logf 'set permissions on copied in ssh keys.'
+chmod 700 /home/vagrant/.ssh && \
+chmod 644 /home/vagrant/.ssh/known_hosts && \
+chmod 600 /home/vagrant/.ssh/id_rsa && \
+chmod 644 /home/vagrant/.ssh/id_rsa.pub && \
+echo_success 
+
+
+logf 'take ownership of the /usr/local/ folder.'
+chown vagrant:vagrant /usr/local/ -R && \
+chmod +rwx /usr/local/ -R && \
+echo_success 

@@ -16,10 +16,10 @@ Vagrant.configure("2") do |config|
   # disable the default share. we won't use it.
   # share a git subfolder into the vagrant machine.
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "./git", "/home/vagrant/git/", create: true
-  config.vm.synced_folder "./scripts/dotfiles", "/home/vagrant/.dotfiles/"
-  config.vm.synced_folder "~/.m2/repository", "/home/vagrant/.m2/repository"
-  config.vm.synced_folder "~/.aws/", "/home/vagrant/.aws/", create: true
+  config.vm.synced_folder "./git", "/home/vagrant/git", create: true
+  config.vm.synced_folder "./scripts/dotfiles", "/home/vagrant/.dotfiles"
+  config.vm.synced_folder "~/.m2/repository", "/home/vagrant/.m2/repository", create: true
+  config.vm.synced_folder "~/.aws", "/home/vagrant/.aws", create: true
   
   # machine settings (virtualbox specific).
   config.vm.provider "virtualbox" do |vb|
@@ -43,7 +43,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
 
-  config.vm.provision "file", source: "./scripts/wander-settings.xml", destination: "/home/vagrant/settings-win.xml"
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
   
   # bootstrap the setup.sh script in ~/.bashrc to run on first `vagrant ssh`.

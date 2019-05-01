@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export JDK_VER='11.0.2'
 export MVN_VER='3.6.0' 
 export COMPOSE_VER='1.23.1'
