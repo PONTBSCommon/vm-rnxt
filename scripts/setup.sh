@@ -1,4 +1,5 @@
 ## This script clones the wander projects and downloads their dependencies on first run ##
+logf() { echo -e "\n\e[1m\e[95m === \e[1;39m$1\e[0;95m === \e[39m\e[21m\n"; }
 
 logf 'Pull down the base wander projects.'
 [ ! -d ~/git/ops ] && mkdir ~/git/ops

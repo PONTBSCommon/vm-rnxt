@@ -6,7 +6,6 @@
 [[ -f /home/vagrant/setup.sh ]] && /home/vagrant/setup.sh | tee ~/.install.log && rm /home/vagrant/setup.sh
 
 source ~/.dotfiles/versions.sh
-source ~/.dotfiles/funcs.sh
 
 # add openjdk 11 to the environment.
 if [ -d "/usr/local/openjdk-${JDK_VER}" ]; then
@@ -24,8 +23,7 @@ fi
 
 # aws configuration
 if [ ! -f ~/.aws/credentials ]; then
-  source ~/.dotfiles/funcs.sh
-  logf 'please set up your aws credentials.'
+  echo 'please set up your aws credentials.'
   aws configure
 else
   echo 'aws creds found.'
@@ -60,6 +58,37 @@ fi
 if [ hash docker-compose 2>/dev/null ]; then
   alias dc=docker-compose
 fi
+
+# Shortcut functions for wander development.
+
+wander-clone() {
+  dir=$(pwd)
+  cd ~/git/wander
+  folder_name="$(echo $1 | perl -pe 's/wander-//g')"
+  echo "git@github.azc.ext.hp.com:Wander/$1.git $folder_name"
+  git clone "git@github.azc.ext.hp.com:Wander/$1.git" $folder_name
+  cd $dir
+}
+
+start-wander-docker() {
+  dir=$(pwd)
+  cd ~/git/wander/common
+  rm ~/.wander_docker.log
+  dc up > ~/.wander_docker.log 2>&1 &
+  cd $dir
+}
+
+stop-wander-docker() {
+  dir=$(pwd)
+  cd ~/git/wander/common
+  dc down
+  cd $dir
+}
+
+restart-wander-docker() {
+  stop-wander-docker
+  start-wander-docker
+}
 
 # start wander docker containers on login.
 start-wander-docker
