@@ -12,6 +12,7 @@ end
 
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.10"
+  
   config.disksize.size = "50GB"
   # disable the default share. we won't use it.
   # share a git subfolder into the vagrant machine.
@@ -23,6 +24,7 @@ Vagrant.configure("2") do |config|
   
   # machine settings (virtualbox specific).
   config.vm.provider "virtualbox" do |vb|
+    vb.name = "vm-rnxt"
     vb.memory = 6144 # 6GB RAM
     vb.cpus = 4 # 4 cores
   end

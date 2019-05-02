@@ -23,6 +23,7 @@ git clone git@github.azc.ext.hp.com:Wander/wander-e2e-test.git e2e-test
 logf 'install common maven dependencies.'
 # boise hp keeps an updated settings.xml in their wander-devbox repository
 mv -f ~/git/ops/devbox/base.d/settings.xml /usr/local/apache-maven-${MVN_VER}/conf/settings.xml && \
+cp /usr/local/apache-maven-${MVN_VER}/conf/settings.xml ~/.m2/settings.xml
 rm -rf ~/git/ops/devbox && \
 cd ~/git/wander/common && mvn dependency:resolve && \
 cd ~/git/wander/e2e-test && mvn dependency:resolve && \

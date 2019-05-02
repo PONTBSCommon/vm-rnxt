@@ -67,7 +67,7 @@ echo_success || echo_failure
 
 logf '[00] installing docker'
 apt-get -qq install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common >/dev/null && \
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - >/dev/null && \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" >/dev/null && \
 apt-get -qq update >/dev/null && \
 apt-get -qq install -y docker-ce docker-ce-cli containerd.io >/dev/null && \
@@ -126,7 +126,7 @@ echo_success || echo_failure
 logf "[07] install helm/tiller $HELM_VER"
 curl -sS https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh && \
 chmod +x get_helm.sh && \
-./get_helm.sh --version "v${HELM_VER}" && \
+./get_helm.sh --version "v${HELM_VER}" >/dev/null && \
 rm -f get_helm.sh && \
 echo_success || echo_failure 
 
