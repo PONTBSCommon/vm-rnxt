@@ -24,9 +24,9 @@ Vagrant.configure("2") do |config|
   
   # machine settings (virtualbox specific).
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "vm-rnxt"
+    vb.name = "Roam Next Development Machine (vm-rnxt)"
     vb.memory = 6144 # 6GB RAM
-    vb.cpus = 4 # 4 cores
+    vb.cpus = 2 # 4 cores
   end
 
   #### PORT FORWARDING ####
