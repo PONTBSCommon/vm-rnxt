@@ -3,15 +3,22 @@
 #############################################
 
 # functions used only here
-echo_success() { echo -e "\e[39mdone. \e[32m(success)\e[39m"; }
-echo_failure() { echo -e "\e[39mERROR. \e[31m(FAILURE)\e[39m"; }
-logf() { echo -e "\n\e[1m\e[95m === \e[1;39m$1\e[0;95m === \e[39m\e[21m\n"; }
+echo_success() { echo -e "\e[93m[$(date +"%H:%M:%S:%4N")] \e[39mdone. \e[32m(success)\e[39m"; }
+echo_failure() { echo -e "\e[93m[$(date +"%H:%M:%S:%4N")] \e[39merror \e[31m(failure)\e[39m"; }
+logf() { echo -e "\n\e[93m[$(date +"%H:%M:%S:%4N")]\e[95m === \e[1;39m$1\e[0;95m === \e[39m\e[21m\n"; }
+
 
 # import software versions.
 source /home/vagrant/.dotfiles/versions.sh
 
 export DEBIAN_FRONTEND=noninteractive
 export TERM=xterm
+
+# fix datetime.
+logf 'set proper timezone'
+apt-get -qq install ifupdown >/dev/null && \
+timedatectl set-timezone America/Toronto && \
+echo_success || echo_failure 
 
 # install line ending convertor.
 logf 'installing dos2unix line ending convertor'
@@ -39,28 +46,22 @@ echo_success || echo_failure
 #############################################
 ## # System setup, and tool installation # ##
 #############################################
-logf 'update system. (quietly `shh`)'
-printf 'holding back packages that cant be updated...' && \
-apt-mark hold console-setup console-setup-linux grub-common grub-pc grub-pc-bin grub2-common keyboard-configuration >/dev/null && \
+# logf 'update system. (quietly `shh`)'
+# printf 'holding back packages that cant be updated...' && \
+# apt-mark hold console-setup console-setup-linux grub-common grub-pc grub-pc-bin grub2-common keyboard-configuration >/dev/null && \
 printf 'updating package lists...' && \
-apt-get -q update >/dev/null && \
-printf 'updating system (this will take a few minutes)...' && \
-apt-get -qq upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" >/dev/null && \
-printf 'removing unused packages...' && \
-apt-get -qq autoremove -y >/dev/null && \
-echo_success || echo_failure 
-
-
-logf 'set proper timezone'
-echo "America/Toronto" > /etc/timezone && \
-dpkg-reconfigure --frontend noninteractive tzdata && \
-echo_success || echo_failure 
+apt-get -q update >/dev/null #&& \
+# printf 'updating system (this will take a few minutes)...' && \
+# apt-get -qq upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" >/dev/null && \
+# printf 'removing unused packages...' && \
+# apt-get -qq autoremove -y >/dev/null && \
+# echo_success || echo_failure 
 
 
 logf 'add printeron nameservers'
-apt-get -qq install -y resolvconf >/dev/null && \
+apt-get -qq install -y resolvconf ifupdown >/dev/null && \
 echo -e "nameserver 172.16.200.10\nnameserver 172.16.200.12" >> /etc/resolvconf/resolv.conf.d/head && \
-service resolvconf restart && \
+resolvconf -u && \
 echo_success || echo_failure 
 
 
@@ -104,7 +105,7 @@ logf '[04] install awscli'
 apt-get -qq install unzip python -y >/dev/null && \
 curl -sS "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o /tmp/awscli-bundle.zip && \
 unzip /tmp/awscli-bundle.zip -d /tmp/ 1>/dev/null && \
-/tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
+/tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws >/dev/null && \
 echo_success || echo_failure 
 
 
@@ -149,3 +150,7 @@ logf 'take ownership of the /usr/local/ folder.'
 chown vagrant:vagrant /usr/local/ -R && \
 chmod +rwx /usr/local/ -R && \
 echo_success || echo_failure 
+
+logf 'clean up /tmp'
+rm -rf /tmp/* && \
+echo_success || echo_failure
