@@ -72,6 +72,7 @@ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(
 apt-get -qq update >/dev/null && \
 apt-get -qq install -y docker-ce docker-ce-cli containerd.io >/dev/null && \
 usermod -aG docker vagrant >/dev/null && \
+systemctl enable docker && \
 echo_success || echo_failure 
 
 
@@ -145,10 +146,17 @@ chmod 600 /home/vagrant/.ssh/id_rsa && \
 chmod 644 /home/vagrant/.ssh/id_rsa.pub && \
 echo_success || echo_failure 
 
+logf 'clear git folder'
+rm -rf /home/vagrant/git/* && \
+echo_success || echo_failure
 
 logf 'take ownership of the /usr/local/ folder.'
 chown vagrant:vagrant /usr/local/ -R && \
 chmod +rwx /usr/local/ -R && \
+echo_success || echo_failure 
+
+logf 'let vagrant user sudo without password'
+echo 'vagrant ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
 echo_success || echo_failure 
 
 logf 'clean up /tmp'

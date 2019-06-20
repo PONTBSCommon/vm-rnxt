@@ -12,9 +12,6 @@ source ~/.dotfiles/versions.sh
 # aws configuration
 [ ! -f ~/.aws/credentials ] && aws configure
 
-# start docker
-[ hash dockerd 2>/dev/null ] && echo -e "vagrant\n" | sudo --stdin dockerd &
-
 # point kops at hpalpine ( kubernetes namespace setup )
 if [ -d ~/git/ops/cicd ]; then
   prev_dir=$(pwd)
@@ -37,16 +34,21 @@ fi
 ### Shortcut functions for wander development. ###
 ##################################################
 
-wander-clone() { dir=$(pwd) && cd ~/git/wander && git clone "git@github.azc.ext.hp.com:Wander/$1.git" $(echo $1 | perl -pe 's/wander-//g') && cd $dir; }
-
-start-wander-docker() {
-  dir=$(pwd) && cd ~/git/wander/common && dc up > ~/.wander_docker.log 2>&1 &
-  cd $dir
+wander-clone() { 
+  git clone "git@github.azc.ext.hp.com:Wander/$1.git" ~/git/wander/$(echo $1 | perl -pe 's/wander-//g')  
 }
 
-stop-wander-docker() { dir=$(pwd) && cd ~/git/wander/common && dc down && cd $dir; }
+start-wander-docker() { 
+  sudo rm ~/.wander_docker.log 2>/dev/null
+  docker-compose -f ~/git/wander/common/docker-compose.yml up > ~/.wander_docker.log 2>&1 & 
+}
+
+stop-wander-docker() {  
+  docker-compose -f ~/git/wander/common/docker-compose.yml down
+}
 
 restart-wander-docker() { stop-wander-docker && start-wander-docker; }
+
 
 ##############################
 ### set shorthand aliases. ###
@@ -58,13 +60,9 @@ alias stopwd=stop-wander-docker
 alias restartwd=restart-wander-docker
 
 
-
 #######################################
 ### Operations To Run On Each Login ###
 #######################################
 
 # run the setup script on first run.
 [[ -f /home/vagrant/setup.sh ]] && /home/vagrant/setup.sh | tee ~/.install.log && rm /home/vagrant/setup.sh
-
-# start wander docker containers.
-startwd
