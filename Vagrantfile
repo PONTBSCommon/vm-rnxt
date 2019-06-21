@@ -46,7 +46,14 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
 
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
+  config.vm.provision "file", source: "./scripts/provision.sh", destination: "/home/vagrant/provision.sh"
   
   # bootstrap the setup.sh script in ~/.bashrc to run on first `vagrant ssh`.
-  config.vm.provision "shell", path: "./scripts/provision.sh"
+  config.vm.provision "shell", priviledged:true, inline: <<-SCRIPT 
+    apt-get install -qq dos2unix -y
+    dos2unix /home/vagrant/provision.sh
+    dos2unix /home/vagrant/.dotfiles/versions.sh
+    chmod +x /home/vagrant/provision.sh
+    /home/vagrant/provision.sh
+  SCRIPT
 end
