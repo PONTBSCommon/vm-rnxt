@@ -9,8 +9,12 @@ source ~/.dotfiles/versions.sh
 # add the maven home environment variable
 [ -d "/usr/local/apache-maven-${MVN_VER}" ] && export MAVEN_HOME="/usr/local/apache-maven-${MVN_VER}"
 
+# add nodejs home to path. 
+[ -d "/usr/local/node-v${NODE_VER}-linux-x64/bin" ] && export NODE_HOME="/usr/local/node-v${NODE_VER}-linux-x64/bin" && export PATH="$NODE_HOME:$PATH"
+
 # aws configuration
 [ ! -f ~/.aws/credentials ] && aws configure
+
 
 # point kops at hpalpine ( kubernetes namespace setup )
 if [ -d ~/git/ops/cicd ]; then

@@ -138,6 +138,14 @@ cat /home/vagrant/.bashrc >> /home/vagrant/.bashrc.pre-oh-my-bash && \
 mv /home/vagrant/.bashrc.pre-oh-my-bash /home/vagrant/.bashrc -f && \
 echo_success || echo_failure 
 
+logf "[10] install nodejs $NODE_VER"
+curl -sS https://nodejs.org/dist/v${NODE_VER}/SHASUMS256.txt.asc -o /tmp/sha256 && \
+curl -sS https://nodejs.org/dist/v${NODE_VER}/node-v${NODE_VER}-linux-x64.tar.xz -o /tmp/node-v${NODE_VER} && \
+sha256sum -t /tmp/sha256 /tmp/node-v${NODE_VER} && rm /tmp/sha256 && \
+tar -xvf /tmp/node-v${NODE_VER} -C /usr/local && \
+rm -rf /tmp/node-v${NODE_VER} && \
+rm -rf /tmp/sha256 &&\
+echo_success || echo_failure
 
 logf 'set permissions on copied in ssh keys.'
 chmod 700 /home/vagrant/.ssh && \
