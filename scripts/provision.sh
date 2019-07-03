@@ -147,6 +147,13 @@ rm -rf /tmp/node-v${NODE_VER} && \
 rm -rf /tmp/sha256 &&\
 echo_success || echo_failure
 
+logf "[11] Install Google Chrome Driver for NodeJS testing."
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - && \
+echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list && \
+sudo apt-get -qq update -y && \
+sudo apt-get -qq install google-chrome-stable -y && \
+echo_success || echo_failure
+
 logf 'set permissions on copied in ssh keys.'
 chmod 700 /home/vagrant/.ssh && \
 chmod 644 /home/vagrant/.ssh/known_hosts && \
