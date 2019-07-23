@@ -1,3 +1,11 @@
+# Things You Need Before Getting Started #
+- **Vagrant** - [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
+- **Git Bash** - [https://git-scm.com/downloads](https://git-scm.com/downloads)
+- **VirtualBox** - [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+- ***MAC ONLY*** **Powershell**
+  - if you have `brew`: `brew install powershell`
+  - manual install: [https://github.com/PowerShell/PowerShell/releases/download/v6.2.2/powershell-6.2.2-osx-x64.pkg](https://github.com/PowerShell/PowerShell/releases/download/v6.2.2/powershell-6.2.2-osx-x64.pkg)
+
 # Instructions #
 - take a look at **Local Setup** first.
 - run the command `vagrant up`
@@ -21,4 +29,4 @@
 - the recommendation is to clone new projects under `~/git/wander/` with the `wander-` prefix removed.
   - folder name can be specified at clone time. (eg: `git clone git@github.azc.ext.hp.com:Wander/wander-printer-status.git printer-status`)
   - `wander-clone [project-name]` is a built in function in `~/.dotfiles/my_bashrc.sh` that clones to `~/git/wander` and removes the prefix from the folder. 
-  - (example: `wander-clone wander-printer-status`)
+  - example: `wander-clone wander-printer-status` will clone the wander-printer-status project into the folder `~/git/wander/printer-status`.

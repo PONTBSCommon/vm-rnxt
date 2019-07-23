@@ -53,6 +53,11 @@ stop-wander-docker() {
 
 restart-wander-docker() { stop-wander-docker && start-wander-docker; }
 
+wander-rdp() {
+  cd ~/git/ops/devbox
+  git reset --hard && git fetch -p && git pull
+  ./desktop.d/
+}
 
 ##############################
 ### set shorthand aliases. ###
