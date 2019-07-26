@@ -55,7 +55,7 @@ restart-wander-docker() { stop-wander-docker && start-wander-docker; }
 
 
 update-wander-master() {
-  $loc=pwd
+  loc=$(pwd)
   cd ~/git/wander
   for subdir in `ls`
   do
@@ -68,7 +68,7 @@ update-wander-master() {
 }
 
 update-ops-master() {
-  $loc=pwd
+  loc=$(pwd)
   cd ~/git/ops
   for subdir in `ls`
   do
