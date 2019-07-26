@@ -54,6 +54,35 @@ stop-wander-docker() {
 restart-wander-docker() { stop-wander-docker && start-wander-docker; }
 
 
+update-wander-master() {
+  $loc=pwd
+  cd ~/git/wander
+  for subdir in `ls`
+  do
+    cd $subdir
+    git fetch -p
+    git pull
+    cd ..
+  done
+  cd $loc
+}
+
+update-ops-master() {
+  $loc=pwd
+  cd ~/git/ops
+  for subdir in `ls`
+  do
+    cd $subdir
+    git fetch -p
+    git pull
+    cd ..
+  done
+  cd $loc
+}
+function update-all-master() {
+  update-wander-master
+  update-ops-master
+}
 ##############################
 ### set shorthand aliases. ###
 ##############################
@@ -62,7 +91,9 @@ alias dc=docker-compose
 alias startwd=start-wander-docker
 alias stopwd=stop-wander-docker
 alias restartwd=restart-wander-docker
-
+alias pullwander=update-wander-master
+alias pullops=update-ops-master
+alias pullall=update-all-master
 
 #######################################
 ### Operations To Run On Each Login ###

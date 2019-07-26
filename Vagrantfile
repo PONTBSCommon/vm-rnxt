@@ -38,6 +38,9 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 4575, host: 4575, id: "localstack sns"
   config.vm.network "forwarded_port", guest: 4576, host: 4576, id: "localstack sqs"
   config.vm.network "forwarded_port", guest: 4577, host: 4577, id: "localstack web interface"
+  config.vm.network "forwarded_port", guest: 3000, host: 3000, id: "angular ports"
+  config.vm.network "forwarded_port", guest: 4200, host: 4200, id: "angular ports"
+  config.vm.network "forwarded_port", guest: 5150, host: 5150, id: "angular ports"
 
 
   #### VIRTUAL MACHINE CONFIGURATION FILES ####
