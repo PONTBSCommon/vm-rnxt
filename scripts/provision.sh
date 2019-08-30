@@ -147,11 +147,17 @@ rm -rf /tmp/node-v${NODE_VER} && \
 rm -rf /tmp/sha256 &&\
 echo_success || echo_failure
 
-logf "[11] Install Google Chrome Driver for NodeJS testing."
+logf "[11] install google chrome driver for nodejs testing."
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - && \
 echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list && \
 sudo apt-get -qq update -y && \
 sudo apt-get -qq install google-chrome-stable -y && \
+echo_success || echo_failure
+
+logf "[12] install python 2.7's pip and yaml parser yq"
+curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && \
+python /tmp/get-pip.py && \
+pip install yq && \
 echo_success || echo_failure
 
 logf 'set permissions on copied in ssh keys.'
