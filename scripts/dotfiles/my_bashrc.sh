@@ -29,9 +29,9 @@ fi
 ### add command completions ###
 ###############################
 
-[ hash kops 2>/dev/null ] && source <(kops completion bash)
-[ hash helm 2>/dev/null ] && source <(helm completion bash)
-[ hash kubectl 2>/dev/null ] && source <(kubectl completion bash)
+[ -f /usr/local/bin/kops ] && source <(kops completion bash)
+[ -f /usr/local/bin/helm ] && source <(helm completion bash)
+[ -f /usr/local/bin/kubectl ] && source <(kubectl completion bash)
 
 
 ##################################################
@@ -43,8 +43,11 @@ wander-clone() {
 }
 
 start-wander-docker() { 
-  sudo rm ~/.wander_docker.log 2>/dev/null
-  docker-compose -f ~/git/wander/common/docker-compose.yml up > ~/.wander_docker.log 2>&1 & 
+  loc=$(pwd)
+  cd ~/git/wander/common
+  rm -f ./run-docker-log.txt
+  ./run-docker &>./run-docker-log.txt &
+  cd $loc
 }
 
 stop-wander-docker() {  
