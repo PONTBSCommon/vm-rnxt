@@ -55,7 +55,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", privileged: true, inline: <<-SCRIPT 
     apt-get install -qq dos2unix -y
     dos2unix /home/vagrant/provision.sh
-    dos2unix /home/vagrant/.dotfiles/versions.sh
     chmod +x /home/vagrant/provision.sh
     /home/vagrant/provision.sh
   SCRIPT

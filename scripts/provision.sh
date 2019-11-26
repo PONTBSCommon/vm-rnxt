@@ -7,10 +7,6 @@ echo_success() { echo -e "\e[93m[$(date +"%H:%M:%S:%4N")] \e[39mdone. \e[32m(suc
 echo_failure() { echo -e "\e[93m[$(date +"%H:%M:%S:%4N")] \e[39merror \e[31m(failure)\e[39m"; }
 logf() { echo -e "\n\e[93m[$(date +"%H:%M:%S:%4N")]\e[95m === \e[1;39m$1\e[0;95m === \e[39m\e[21m\n"; }
 
-
-# import software versions.
-source /home/vagrant/.dotfiles/versions.sh
-
 export DEBIAN_FRONTEND=noninteractive
 export TERM=xterm
 
