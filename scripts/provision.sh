@@ -48,6 +48,11 @@ logf 'let vagrant user sudo without password'
 echo 'vagrant ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
 echo_success || echo_failure 
 
+logf 'adding authly to PATH'
+sudo cp /home/vagrant/bin/authly /usr/local/bin/authly && \
+sudo chmod 755 /usr/local/bin/authly && \
+echo_success || echo_failure
+
 #############################################
 ## # System setup, and tool installation # ##
 #############################################

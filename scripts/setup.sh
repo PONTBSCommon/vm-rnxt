@@ -22,7 +22,8 @@ cd wander-devbox && \
 echo_success || echo_failure
 
 logf '[03] authenticate with ADFS'
-authly
+authly && \
+echo_success || echo_failure
 
 logf '[04] pull common maven dependencies down from S3'
 sudo cp ~/git/wander-devbox/base.d/settings.xml ~/.m2/settings.xml && \

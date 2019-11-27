@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
 
   ### AUTHLY BINARY ###
-  config.vm.provision "file", source: "./bin/authly", destination: "/usr/local/bin/authly"
+  config.vm.provision "file", source: "./bin/authly", destination: "/home/vagrant/bin/authly"
 
   ### FIRST RUN PROVISIONING SCRIPTS ###
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
