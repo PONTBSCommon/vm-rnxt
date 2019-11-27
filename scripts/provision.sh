@@ -65,34 +65,27 @@ echo -e "nameserver 172.16.200.10\nnameserver 172.16.200.12" >> /etc/resolvconf/
 resolvconf -u && \
 echo_success || echo_failure 
 
-logf '[02]set permissions on copied in ssh keys.'
+logf '[02] set permissions on copied in ssh keys.'
 chmod 700 /home/vagrant/.ssh && \
 chmod 644 /home/vagrant/.ssh/known_hosts && \
 chmod 600 /home/vagrant/.ssh/id_rsa && \
 chmod 644 /home/vagrant/.ssh/id_rsa.pub && \
 echo_success || echo_failure 
 
-logf '[03] clone wander-devbox'
-cd /home/vagrant/git && \
-git clone git@github.azc.ext.hp.com:Wander/wander-devbox.git && \
-echo_success || echo_failure
+MD5=$(ssh-keygen -l -E md5 -f /home/vagrant/.ssh/id_rsa.pub)
+printf 'the MD5 hash of your public key is %s' "$MD5"
 
-logf '[04] running wander-devbox build.sh script'
-cd wander-devbox && \
-./build.sh && \
-cd /home/vagrant && \
-echo_success || echo_failure
-
-logf '[05] install oh-my-bash (pretty git prompt)'
+logf '[03] install oh-my-bash (pretty git prompt)'
 sudo -Hu vagrant sh -c "$(curl -fsSL https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh)" <<< 'exit' && \
 cat /home/vagrant/.bashrc >> /home/vagrant/.bashrc.pre-oh-my-bash && \
 mv /home/vagrant/.bashrc.pre-oh-my-bash /home/vagrant/.bashrc -f && \
-echo_success || echo_failure 
+echo_success || echo_failure
 
-logf '[06] clean up /tmp'
+# TODO: Authly! 
+
+logf '[04] clean up /tmp'
 rm -rf /tmp/* && \
 echo_success || echo_failure
 
-logf 'Setup complete!'
-logf 'Run `vagrant ssh` to access the devbox'
-logf 'For more information, see https://github.azc.ext.hp.com/PONCommon/vm-rnxt/blob/master/README.md'
+logf 'Initial setup is complete. Additional setup steps will run the first time that you log into the box'
+logf 'Please run `vagrant ssh` to complete the installation process'
