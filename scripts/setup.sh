@@ -21,8 +21,11 @@ cd wander-devbox && \
 ./build.sh && \
 echo_success || echo_failure
 
-logf '[03] pull common maven dependencies down from S3'
-sudo cp ~/git/devbox/base.d/settings.xml ~/.m2/settings.xml && \
+logf '[03] authenticate with ADFS'
+authly
+
+logf '[04] pull common maven dependencies down from S3'
+sudo cp ~/git/wander-devbox/base.d/settings.xml ~/.m2/settings.xml && \
 cd ~/git/wander/common && mvn clean install && \
 cd ~/git/wander/e2e-test && mvn clean install && \
 echo_success || echo_failure

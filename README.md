@@ -17,3 +17,6 @@
 - some default wander repositories are cloned into the `~/git` folder in the vm
 - your host machine's `~/.m2/repository` folder will be shared to `/home/vagrant/.m2/repository` in the vm
 - your host machine's `~/.aws` folder will be shared to `/home/vagrant/.aws` in the vm
+
+# A Note on the /bin Directory #
+To authenticate with ADFS from the command line, we make use of an internally developed tool called [authly](https://github.azc.ext.hp.com/Public-Cloud-Core-Services/authly). Unfortunately, there seems to be a bug in the way that the latest Linux release of that utility was packaged, so the binaries have temporarily been included in the [/bin](/bin) directory of this repository. Once [this bug](https://github.azc.ext.hp.com/Public-Cloud-Core-Services/authly/issues/13) has been resolved, this box will be updated to download the latest release of the utility directly from their GitHub repository.

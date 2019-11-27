@@ -43,11 +43,15 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 5150, host: 5150, id: "angular ports"
 
 
-  #### VIRTUAL MACHINE CONFIGURATION FILES ####
+  #### DEVELOPER SSH CERTS FOR GITHUB ACCESS ####
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
 
+  ### AUTHLY BINARY ###
+  config.vm.provision "file", source: "./bin/authly", destination: "/usr/local/bin/authly"
+
+  ### FIRST RUN PROVISIONING SCRIPTS ###
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
   config.vm.provision "file", source: "./scripts/provision.sh", destination: "/home/vagrant/provision.sh"
   

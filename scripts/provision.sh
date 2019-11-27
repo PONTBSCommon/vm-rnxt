@@ -81,8 +81,6 @@ cat /home/vagrant/.bashrc >> /home/vagrant/.bashrc.pre-oh-my-bash && \
 mv /home/vagrant/.bashrc.pre-oh-my-bash /home/vagrant/.bashrc -f && \
 echo_success || echo_failure
 
-# TODO: Authly! 
-
 logf '[04] clean up /tmp'
 rm -rf /tmp/* && \
 echo_success || echo_failure
