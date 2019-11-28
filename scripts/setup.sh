@@ -27,8 +27,8 @@ echo_success || echo_failure
 
 logf '[04] pull common maven dependencies down from S3'
 sudo cp ~/git/wander-devbox/base.d/settings.xml ~/.m2/settings.xml && \
-cd ~/git/wander/common && mvn clean install && \
-cd ~/git/wander/e2e-test && mvn clean install && \
+cd ~/git/wander-common && mvn clean install && \
+cd ~/git/wander-e2e-test && mvn clean install && \
 echo_success || echo_failure
 
 cd ~ && logf '~(˘▾˘~) Installation is complete. Happy coding! (~˘▾˘)~'
