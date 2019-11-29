@@ -30,6 +30,8 @@ Vagrant.configure("2") do |config|
   end
 
   #### PORT FORWARDING ####
+  # these ports will appear on the host windows machine, allowing developers to work in intellij while taking advantage of services that
+  # run as docker containers within the virtual machine
   config.vm.network "forwarded_port", guest: 15672, host: 15672, id: "rabbitmq"
   config.vm.network "forwarded_port", guest: 5671, host: 5671, id: "rabbitmq"
   config.vm.network "forwarded_port", guest: 5672, host: 5672, id: "rabbitmq"
@@ -42,20 +44,25 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 4200, host: 4200, id: "angular ports"
   config.vm.network "forwarded_port", guest: 5150, host: 5150, id: "angular ports"
 
-
-  #### VIRTUAL MACHINE CONFIGURATION FILES ####
+  #### DEVELOPER SSH CERTS FOR GITHUB ACCESS ####
+  # "borrow" the developer's github keys so that the virtual box can clone repositories from HP enterprise github
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
   config.vm.provision "file", source: "~/.ssh/known_hosts", destination: "/home/vagrant/.ssh/known_hosts"
 
+  ### AUTHLY BINARY ###
+  # this is a bit ugly - ideally, we would download this binary from https://github.azc.ext.hp.com/Public-Cloud-Core-Services/authly/releases during setup,
+  # but their linux packaging appears to be broken, so we've temporarily opted to check the 1.10.0 linux x64 binary into this repository until they fix it
+  config.vm.provision "file", source: "./bin/authly", destination: "/home/vagrant/bin/authly"
+
+  ### FIRST RUN PROVISIONING SCRIPTS ###
   config.vm.provision "file", source: "./scripts/setup.sh", destination: "/home/vagrant/setup-win.sh"
   config.vm.provision "file", source: "./scripts/provision.sh", destination: "/home/vagrant/provision.sh"
   
-  # bootstrap the setup.sh script in ~/.bashrc to run on first `vagrant ssh`.
+  # the box is ready to go - execute the /scripts/provision.sh script on the box as root to continue
   config.vm.provision "shell", privileged: true, inline: <<-SCRIPT 
     apt-get install -qq dos2unix -y
     dos2unix /home/vagrant/provision.sh
-    dos2unix /home/vagrant/.dotfiles/versions.sh
     chmod +x /home/vagrant/provision.sh
     /home/vagrant/provision.sh
   SCRIPT
