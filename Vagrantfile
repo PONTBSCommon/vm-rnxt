@@ -11,9 +11,9 @@ if not plugins_to_install.empty?
 end
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-18.10"
+  config.vm.box = "bento/ubuntu-18.04"
   
-  config.disksize.size = "50GB"
+  config.disksize.size = "65GB"
   # disable the default share. we won't use it.
   # share a git subfolder into the vagrant machine.
   config.vm.synced_folder ".", "/vagrant", disabled: true
