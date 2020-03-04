@@ -43,6 +43,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000, id: "angular ports"
   config.vm.network "forwarded_port", guest: 4200, host: 4200, id: "angular ports"
   config.vm.network "forwarded_port", guest: 5150, host: 5150, id: "angular ports"
+  config.vm.network "forwarded_port", guest: 4444, host: 4444, id: "selenium"
 
   #### DEVELOPER SSH CERTS FOR GITHUB ACCESS ####
   # "borrow" the developer's github keys so that the virtual box can clone repositories from HP enterprise github
