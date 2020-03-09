@@ -106,7 +106,7 @@ function aws_beta {
 }
 
 function dev_aws {
-    aws_auth arn:aws:iam::037487371311:role/ADMIN hpalpine
+    aws_auth arn:aws:iam::037487371311:role/DEVELOPER hpalpine
 }
 function aws_dev {
     dev_aws
