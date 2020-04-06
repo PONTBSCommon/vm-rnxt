@@ -17,7 +17,7 @@
 ##################################################
 ### Shortcut functions for wander development. ###
 ##################################################
-start-wander-docker() { 
+start-wander-docker() {
   loc=$(pwd)
   cd ~/git/wander-common
   rm -f ./run-docker-log.txt
@@ -25,7 +25,7 @@ start-wander-docker() {
   cd $loc
 }
 
-stop-wander-docker() {  
+stop-wander-docker() {
   docker-compose -f ~/git/wander-common/docker-compose.yml down
 }
 
@@ -59,7 +59,7 @@ function aws_auth {
     make $2 env-app
     source env.sh
     source kops_env.sh
-    popd  
+    popd
 }
 
 # Computes the ARN of an ADFS role for the alpine-prod environment
@@ -157,6 +157,9 @@ function china_aws {
 }
 function aws_china {
   china_aws
+}
+function update_authly {
+  ~/.dotfiles/update_authly.sh
 }
 
 # Opens a mysql terminal for executing requests against the database
